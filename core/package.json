@@ -1,0 +1,10 @@
+{
+  "name": "@antenna/core",
+  "version": "0.0.1",
+  "description": "The mathematics ploter library",
+  "main": "index.js",
+  "repository": "https://github.com/chendjouCaleb/antenna.git",
+  "author": "Chendjou deGrace",
+  "license": "MIT",
+  "private": false
+}
