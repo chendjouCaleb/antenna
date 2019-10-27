@@ -1,4 +1,5 @@
 import {IElement} from "./element.interface";
+import {ILine} from "./ILine";
 
 export interface IGrid extends IElement {
     space: number;
@@ -8,4 +9,7 @@ export interface IGrid extends IElement {
 
     xDomain: [ number, number];
     yDomain: [ number, number];
+
+    xLines(): Iterable<ILine>
+    yLines(): Iterable<ILine>
 }

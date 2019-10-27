@@ -1,33 +1,27 @@
 import {IElement} from "./element.interface";
 import {ILabel} from "./label";
 import {IMarker} from "./marker";
-import {Line} from "./line";
+import {ILocator} from "./locator";
+import {UnitSize} from "../unit-size";
 
 export interface IFunction extends IElement{
-    domain: [ number, number ];
+    xUnitSize: UnitSize;
+    yUnitSize: UnitSize;
+
+    domain: [[ number, number ]];
 
     expression: (x: number) => number;
 
     label: ILabel;
 
-    markers(): IFunctionMarkers;
-    locators()
+    markers(): Iterable<IMarker>;
 
     addMarker(x: number): IMarker;
-
-
-
-}
-
-export interface IFunctionMarkers extends Iterable<IMarker>{
-    add(x: number): IMarker;
     remove(marker: IMarker): boolean;
+
+    locators(): Iterable<ILocator>;
+
+    addLocator(x: number): ILocator;
+    removeLocator(locator: ILocator);
 }
 
-export interface FunctionLocator extends Iterable<IMarker>{
-    addXLocator(x: number): Line;
-    addYLocator(x: number): Line;
-    add(x: number, y: number): [Line, Line];
-
-    remove(line: Line): boolean;
-}

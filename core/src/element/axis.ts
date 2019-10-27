@@ -1,18 +1,17 @@
 import {Point} from "../helpers/point";
-import {Line} from "./line";
+import {ILine} from "./ILine";
 import {ITicks} from "./ticks";
 
 export interface IAxis {
     start: Point;
     end: Point;
 
-    line(): Line;
+    line(): ILine;
 
-    ticks(): IAxisTicks;
+    ticks(): Iterable<ITicks>;
+
+    addTick(position: number, text: any): ITicks;
+    getTick(index: number): ITicks;
+    removeTick(tick: ITicks): ITicks;
 }
 
-export interface IAxisTicks extends Iterable<ITicks>{
-    add(position: number, text: any);
-    get(index: number);
-    remove(tick: ITicks);
-}
