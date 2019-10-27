@@ -1,6 +1,6 @@
 import {UnitSize} from "../unit-size";
 
-export interface Element {
+export interface IElement {
 
     parent: Element;
 
@@ -39,6 +39,12 @@ export interface Element {
     scaleY(y: number): boolean;
 
     scale(xy: [number, number]): boolean;
+
+    hide();
+
+    show();
+
+    destroy();
 
 
 }

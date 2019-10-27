@@ -1,0 +1,11 @@
+import {IElement} from "./element.interface";
+
+export interface IGrid extends IElement {
+    space: number;
+    strokeWidth: number;
+    strokeColor: number;
+    dashWidth: number;
+
+    xDomain: [ number, number];
+    yDomain: [ number, number];
+}

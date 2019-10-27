@@ -4,4 +4,8 @@ import {Point} from "../helpers/point";
 export interface Line{
     start: Point;
     end: Point;
+
+    strokeWidth: number;
+    dashWidth: number;
+    strokeColor: string;
 }
