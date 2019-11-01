@@ -5,7 +5,7 @@ import {ILine} from "./ILine";
 import {IFunction} from "./function";
 import {IGrid} from "./grid";
 import {IFillRegion} from "./fill-region";
-import {UnitSize} from "../unit-size";
+import {UnitSize} from "../helpers/unit-size";
 import {IElement} from "./element.interface";
 
 export interface IGraph extends IElement{

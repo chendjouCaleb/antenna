@@ -1,4 +1,4 @@
-import {UnitSize} from "../unit-size";
+import {UnitSize} from "../helpers/unit-size";
 
 export abstract class Element {
     protected _children: Iterable<Element>;

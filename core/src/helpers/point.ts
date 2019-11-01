@@ -9,6 +9,10 @@ export class Point {
         throw new Error("Not implemented method");
     }
 
+    public distance(point: Point): number {
+        throw new Error("Not implemented method");
+    }
+
     public multiply(x: number): Point {
         throw new Error("Not implemented method");
     }

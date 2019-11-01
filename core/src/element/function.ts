@@ -2,7 +2,7 @@ import {IElement} from "./element.interface";
 import {ILabel} from "./label";
 import {IMarker} from "./marker";
 import {ILocator} from "./locator";
-import {UnitSize} from "../unit-size";
+import {UnitSize} from "../helpers/unit-size";
 
 export interface IFunction extends IElement{
     xUnitSize: UnitSize;

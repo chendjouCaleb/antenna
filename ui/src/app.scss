@@ -1,0 +1,41 @@
+
+body, html {
+  font-family: "Segoe UI", sans-serif;
+  padding: 0;
+  font-size: 14px;
+}
+
+#container {
+  display: flex;
+  height: 100vh;
+}
+
+#canvas-zone{
+  background: #f9f9f9;
+  height: 100%;
+  flex-grow: 1;
+}
+
+#control-bloc {
+  width: 250px;
+  border: 1px solid #EEE;
+  height: 100%;
+}
+
+.control-item{
+  padding: 10px;
+}
+label{
+  font-family: "Segoe UI", sans-serif;
+  font-weight: 500;
+}
+.control-input {
+  height: 32px;
+  border: 1px solid #e7e7e7;
+  width: 100%;
+  padding: 10px
+}
+
+.control-input:focus{
+  border-color: #005cbf;
+}

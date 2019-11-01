@@ -1,4 +1,4 @@
-import {UnitSize} from "../unit-size";
+import {UnitSize} from "../helpers/unit-size";
 import {IGraph} from "./IGraph";
 
 export interface IFigure {
