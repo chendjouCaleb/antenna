@@ -1,8 +1,7 @@
 import {IElement} from "./element";
-import {IFillable} from "./fillable";
-import {IRectangleShape} from "./RectangleShape";
+import {IRectangle, IRectangleShape} from "./rectangle";
 import {IParent} from "./parent";
-import {IBordered} from "./bordered";
 
-export interface IFigure extends IElement, IRectangleShape, IFillable, IParent, IBordered{
+export interface IFigure extends IElement, IRectangleShape, IParent{
+    rect: IRectangle;
 }

@@ -8,7 +8,6 @@ export class Control {
     
     private _unitSizeEvent = () => {
         let x = +this._unitSizeControl.value;
-        this.element.unitSize = x;
     };
     
     private _xControlEvent = () => {
@@ -34,7 +33,6 @@ export class Control {
 
         this.xControl.value = this.element.x.toString();
         this.yControl.value = this.element.y.toString();
-        this.unitSizeControl.value = this.element.unitSize.toString();
     }
     
     destroy() {

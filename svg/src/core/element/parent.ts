@@ -1,14 +1,12 @@
 import {IElement} from "./element";
 
 export interface IParent {
-    addChild(element: IElement);
+    addChild(element: IElement): boolean;
 
-    addChildren(children: Iterable<IElement>);
-
-    removeChild(element: IElement);
-
-    removeChildren(children: Iterable<IElement>);
+    removeChild(element: IElement): boolean;
 
     children(): Iterable<IElement>;
+
+    hasChild(element: IElement): boolean;
 
 }

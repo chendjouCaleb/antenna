@@ -1,6 +1,4 @@
 export interface IElement {
-    unitSize: number;
-
     name: string;
 
     id: number;

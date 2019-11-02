@@ -1,23 +1,19 @@
 import {IElement} from "../core/element/element";
-import {UnitSize} from "../core";
 import {Assert} from "../core/helpers/assert";
 import {Transform} from "./transform";
+import {SVGAttributeHelpers} from "../helpers/SVGAttributeHelpers";
 
 export abstract class AbstractSvg<T extends SVGElement> implements IElement{
 
     constructor(private _hostElement: any) {
-        console.log(_hostElement)
     }
     protected _id: number;
     private _name: string;
-    private _unitSize: number = UnitSize.emUnitSize.size;
 
     private _x: number = 0;
     private _y: number = 0;
 
     private _transforms = new Transform();
-
-
 
     getAttribute(key: string): any {
         return this.host.getAttribute(key);
@@ -93,12 +89,8 @@ export abstract class AbstractSvg<T extends SVGElement> implements IElement{
     }
 
     moveTo(x: number, y: number): void {
-        const realX = this._unitSize * x;
-        const realY = this._unitSize * y;
-
-        this.x += realX;
-        this.y += realY;
-
+        this.x += x;
+        this.y += y;
     }
 
     removeAttribute(key: string): any {
@@ -115,19 +107,14 @@ export abstract class AbstractSvg<T extends SVGElement> implements IElement{
         this.setAttribute("name", value);
     }
 
-    set unitSize(value: number) {
-        this._unitSize = value;
-    }
 
     set x(value: number) {
         this._x = value;
-        const rx = this.unitSize * value;
-        this.setAttribute("x", rx);
+        SVGAttributeHelpers.x(this.host, value);
     }
 
     set y(value: number) {
-        const ry = this.unitSize * value;
-        this.setAttribute("y", ry);
+        SVGAttributeHelpers.y(this.host, value);
         this._y = value;
     }
 
@@ -143,12 +130,6 @@ export abstract class AbstractSvg<T extends SVGElement> implements IElement{
 
     get name(): string {
         return this._name;
-    }
-
-
-
-    get unitSize(): number {
-        return this._unitSize;
     }
 
     get transforms(): Transform {

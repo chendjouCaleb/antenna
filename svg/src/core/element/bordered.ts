@@ -1,16 +1,7 @@
 export interface IBordered {
     borderWidth: number;
     borderColor: string;
-    borderDashArray: number;
+    borderDashArray: string;
     borderOpacity: number;
-
-    hideBorder(): void;
-
-    showBorder(): void;
-
-    isHiddenBorder(): boolean;
-}
-
-export interface IRadiusShape {
-    borderRadius: number;
+    visibleBorder: boolean;
 }

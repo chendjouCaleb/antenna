@@ -123,6 +123,14 @@ export class SVGAttributeHelpers {
         element.setAttribute(attr, value.toString());
     }
 
+    public static setAttribute(element: SVGElement, attr: string, value: string) {
+        Assert.isNotNull(element);
+        Assert.isNotNullOrWhiteSpace(attr);
+        Assert.isNotNullOrWhiteSpace(value);
+
+        element.setAttribute(attr, value);
+    }
+
 
     public static removeAttributes(element: SVGElement, attributes: string[]){
         Assert.isNotNull(element);
