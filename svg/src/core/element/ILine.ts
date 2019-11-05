@@ -1,10 +1,11 @@
 import {Point} from "../helpers/point";
+import {IElement} from "./element";
 
-export interface ILine{
+export interface ILine extends IElement{
     start: Point;
     end: Point;
 
     strokeWidth: number;
-    dashWidth: number;
+    dash: string;
     strokeColor: string;
 }

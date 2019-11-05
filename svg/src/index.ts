@@ -2,6 +2,8 @@ import {FigureSvg} from "./element/figure";
 import {IElement} from "./core/element/element";
 import {ControlFactory} from "./controls/control-factory";
 import {Rectangle} from "./element/rectangle";
+import {LineSvg} from "./element/line";
+import {Point} from "./core";
 
 document.onreadystatechange = () => {
     let svg = document.querySelector<SVGElement>("#canvas-zone");
@@ -9,30 +11,28 @@ document.onreadystatechange = () => {
 
     svg.appendChild(figure.host);
 
-    figure.rect.borderWidth = 10;
-    figure.width = 400;
-    figure.height = 400;
+    figure.width = 500;
+    figure.height = 500;
 
-    figure.rect.borderColor = "#3399FF";
+    figure.fillColor = "#3399FF";
+    figure.fillOpacity = 0.2
 
-    figure.rect.borderOpacity = 0.5;
-    figure.rect.fillColor = "red";
+    let graph = figure.addGraph(0, 0);
+    graph.fillColor = "red";
+    graph.fillOpacity = 0.1;
 
-    figure.rect.cornerRadius = 5;
+    let graph1 = figure.addGraph(0, 210);
+    graph1.fillColor = "red";
+    graph1.fillOpacity = 0.1;
 
-    figure.rect.visibleFill = false;
+    let line = new LineSvg();
+    line.start = new Point(10, 10);
+    line.end = new Point(300, 300);
+    line.strokeColor = "red";
+    line.dash = "50, 10, 5";
 
-    let rect = new Rectangle();
-    rect.width = 300;
-    rect.height = 320;
+    figure.addChild(line);
 
-    figure.addChild(rect);
-
-    rect.fillColor = "#3c3c3c"
-    rect.borderWidth = 10;
-    rect.borderColor = "red";
-    rect.x = 1;
-    rect.y = 5;
 
 };
 

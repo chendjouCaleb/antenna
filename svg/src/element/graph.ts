@@ -1,21 +1,23 @@
+import {IGraph} from "../core";
 import {AbstractSvg} from "./abstract-svg";
-import {IElement} from "../core/element/element";
-import {IFigure } from "../core";
-import {createSvgElement} from "../helpers/SVGHelpers";
-import {SVGAttributeHelpers} from "../helpers/SVGAttributeHelpers";
 import {Rectangle} from "./rectangle";
+import {IScale, LinearScale} from "../core/helpers/scale";
+import {createSvgElement} from "../helpers/SVGHelpers";
+import {IElement} from "../core/element/element";
 import {Assert} from "../core/helpers/assert";
-import {IRectangle} from "../core/element/rectangle";
-import {GraphSvg} from "./graph";
+import {SVGAttributeHelpers} from "../helpers/SVGAttributeHelpers";
 
 let uniqueId = 0;
-export class FigureSvg extends AbstractSvg<SVGElement> implements IFigure {
-
-    private _height: number = 0;
-    private _width: number = 0;
-    private _children: IElement[] = [];
+export class GraphSvg extends AbstractSvg<SVGElement> implements IGraph {
     private readonly _rect: Rectangle;
+    private _height: number;
+    private _width: number;
+    private _xDomain: [number, number] = [0, 1];
+    private _yDomain: [number, number] = [0, 1];
+    private _children: IElement[] = [];
 
+    private _xScale: LinearScale = new LinearScale([0, 1], [0, 1]);
+    private _yScale: LinearScale = new LinearScale([0, 1], [0, 1]);
 
     constructor() {
         super(createSvgElement("svg"));
@@ -33,35 +35,18 @@ export class FigureSvg extends AbstractSvg<SVGElement> implements IFigure {
         this._rect.y = 0;
     }
 
-
-    addGraph(x: number, y: number): GraphSvg {
-        let graph = new GraphSvg();
-        graph.x = x;
-        graph.y = y;
-        graph.yDomain = [-1, 10];
-        graph.xDomain = [-1, 10];
-        graph.width = 200;
-        graph.height = 200;
-
-        this.addChild(graph);
-        return graph;
-    }
-
-    set height(value: number) {
-        this._height = value;
-        SVGAttributeHelpers.height(this.host, value);
-        this._rect.height = value;
-    }
-
-    set width(value: number) {
-        this._width = value;
-        SVGAttributeHelpers.width(this.host, value);
-        this._rect.width = value;
-    }
-
     objectType(): string {
-        return "figure";
+        return "graph";
     }
+
+    xScale(): IScale<number, number> {
+        return this._xScale;
+    }
+
+    yScale(): IScale<number, number> {
+        return this._yScale;
+    }
+
 
     hasChild(element: IElement): boolean {
         Assert.isNotNull(element);
@@ -98,16 +83,29 @@ export class FigureSvg extends AbstractSvg<SVGElement> implements IFigure {
     }
 
 
-
-
-    get height(): number {
-        return this._height;
+    set height(value: number) {
+        this._height = value;
+        SVGAttributeHelpers.height(this.host, value);
+        this._rect.height = value;
+        this._yScale.output = [0, value];
     }
 
-    get width(): number {
-        return this._width;
+    set width(value: number) {
+        this._width = value;
+        SVGAttributeHelpers.width(this.host, value);
+        this._rect.width = value;
+        this._xScale.output = [0, value];
     }
 
+    set xDomain(value: [number, number]) {
+        this._xDomain = value;
+        this._xScale.input = value;
+    }
+
+    set yDomain(value: [number, number]) {
+        this._yDomain = value;
+        this._yScale.input = value;
+    }
 
     get fillColor(): string {
         return this._rect.fillColor;
@@ -136,4 +134,22 @@ export class FigureSvg extends AbstractSvg<SVGElement> implements IFigure {
     get rect(): Rectangle {
         return this._rect;
     }
+
+
+    get height(): number {
+        return this._height;
+    }
+
+    get width(): number {
+        return this._width;
+    }
+
+    get xDomain(): [number, number] {
+        return this._xDomain;
+    }
+
+    get yDomain(): [number, number] {
+        return this._yDomain;
+    }
+
 }
