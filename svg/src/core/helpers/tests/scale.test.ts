@@ -21,5 +21,15 @@ describe("linear scale", () => {
         expect(linear.scale(10)).toBe(0);
     });
 
+    test("scale with negative value", () => {
+        let linear = new LinearScale([-10, 10], [0, 100]);
 
-})
+        expect(linear.scale(-10)).toBe(0);
+        expect(linear.scale(0)).toBe(50);
+        expect(linear.scale(-5)).toBe(25);
+        expect(linear.scale(5)).toBe(75);
+        expect(linear.scale(10)).toBe(100);
+    });
+
+
+});

@@ -1,4 +1,4 @@
-import {IGraph} from "../core";
+import {IGraph, Point} from "../core";
 import {AbstractSvg} from "./abstract-svg";
 import {Rectangle} from "./rectangle";
 import {IScale, LinearScale} from "../core/helpers/scale";
@@ -33,6 +33,21 @@ export class GraphSvg extends AbstractSvg<SVGElement> implements IGraph {
 
         this._rect.x = 0;
         this._rect.y = 0;
+    }
+
+    transformPoint(point: Point): Point {
+        const x = this.xScale().scale(point.x);
+        const y = this.height - this.yScale().scale(point.y);
+
+        return new Point(x, y);
+    }
+
+    get origin(): Point {
+
+        const x = this.xScale().scale(0);
+        const y = this.height - this.yScale().scale(0);
+
+        return new Point(x, y);
     }
 
     objectType(): string {

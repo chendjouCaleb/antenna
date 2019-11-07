@@ -10,8 +10,8 @@ export abstract class AbstractSvg<T extends SVGElement> implements IElement{
     protected _id: number;
     private _name: string;
 
-    private _x: number = 0;
-    private _y: number = 0;
+    protected _x: number = 0;
+    protected _y: number = 0;
 
     private _transforms = new Transform();
 

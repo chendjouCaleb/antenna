@@ -2,6 +2,7 @@ import {createSvgElement} from "../../helpers/SVGHelpers";
 import {GraphSvg} from "../graph";
 import {Rectangle} from "../rectangle";
 import {LinearScale} from "../../core/helpers/scale";
+import {Point} from "../../core";
 
 describe("graph", () => {
     test("create", () => {
@@ -60,6 +61,48 @@ describe("graph", () => {
 
         expect((<LinearScale>graph.xScale()).input).toStrictEqual([-10, 10]);
         expect((<LinearScale>graph.yScale()).input).toStrictEqual([-10, 10]);
+    });
+
+    test("test graph origin", () => {
+        let graph = new GraphSvg();
+
+        graph.xDomain = [-10, 10];
+        graph.yDomain = [-5, 10];
+        graph.width = 100;
+        graph.height = 150;
+
+
+        expect(graph.origin.x).toBe(50);
+        expect(graph.origin.y).toBe(100);
+    });
+
+    test("change graph point", () => {
+        let graph = new GraphSvg();
+
+        graph.xDomain = [-10, 10];
+        graph.yDomain = [-5, 10];
+
+        graph.width = 100;
+        graph.height = 150;
+
+        let point = graph.transformPoint(new Point(10, 10));
+
+        expect(point.x).toBe(100);
+        expect(point.y).toBe(0);
+
+        point = graph.transformPoint(new Point(0, 0));
+        expect(point.x).toBe(50);
+        expect(point.y).toBe(100);
+
+        point = graph.transformPoint(new Point(-10, -5));
+        expect(point.x).toBe(0);
+        expect(point.y).toBe(150);
+
+        point = graph.transformPoint(new Point(-1, 1));
+
+        expect(point.x).toBe(45);
+        expect(point.y).toBe(90);
+
     });
 
     test("add child", () => {

@@ -20,6 +20,13 @@ export class LineSvg extends AbstractSvg<SVGLineElement> implements ILine{
         return "line";
     }
 
+    get slope(): number {
+        return (this.end.y - this.start.y)/(this.end.x - this.start.x);
+    }
+
+    get intercept(): number {
+        return this.start.y - this.slope * this.start.x;
+    }
 
     set dash(value: string) {
         this._dash = value;

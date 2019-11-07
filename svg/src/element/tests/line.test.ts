@@ -27,6 +27,9 @@ describe("svg line", () => {
         expect(line.end.y).toBe(100);
         expect(line.host.getAttribute("x2")).toBe("100");
         expect(line.host.getAttribute("y2")).toBe("100");
+
+        expect(line.slope).toBe(1);
+        expect(line.intercept).toBe(0);
     });
 
 

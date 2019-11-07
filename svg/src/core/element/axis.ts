@@ -1,8 +1,9 @@
 import {Point} from "../helpers/point";
 import {ILine} from "./ILine";
 import {ITicks} from "./ticks";
+import {IElement} from "./element";
 
-export interface IAxis {
+export interface IAxis extends IElement{
     start: Point;
     end: Point;
 
