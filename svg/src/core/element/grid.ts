@@ -1,15 +1,15 @@
-import {IElement} from "./element";
 import {ILine} from "./ILine";
 
-export interface IGrid extends IElement {
-    space: number;
+export interface IGrid {
+    vspace: number;
+    hspace: number;
     strokeWidth: number;
-    strokeColor: number;
-    dashWidth: number;
+    strokeColor: string;
+    dasharray: string;
 
-    xDomain: [ number, number];
-    yDomain: [ number, number];
+    hDomain: [ number, number];
+    vDomain: [ number, number];
 
-    xLines(): Iterable<ILine>
-    yLines(): Iterable<ILine>
+    hLines(): Iterable<ILine>
+    vLines(): Iterable<ILine>
 }

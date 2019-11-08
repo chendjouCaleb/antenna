@@ -86,3 +86,17 @@ describe("translate", () => {
     });
 
 });
+
+describe("get expression point", () => {
+    test("expression point from simple function", () => {
+        let fn = x => x * x;
+        let points = PointHelpers.getExpressionPoints(fn, [0, 5], 0.2);
+
+        expect(points.length).toBe(25);
+        for(let i = 0, j = 0; i <= 5; i+=0.2, j++){
+
+            expect(points[j].x).toBe(i);
+            expect(points[j].y).toBe(fn(i));
+        }
+    });
+});

@@ -1,26 +1,9 @@
-import {IElement} from "./element";
-import {ILabel} from "./label";
-import {IMarker} from "./marker";
-import {ILocator} from "./locator";
-import {UnitSize} from "../helpers/unit-size";
+import {IStroke} from "./stroke";
 
-export interface IFunction extends IElement{
-    xUnitSize: UnitSize;
-    yUnitSize: UnitSize;
+export interface IFunction extends IStroke{
 
-    domain: [[ number, number ]];
+    domain: [number, number][];
 
     expression: (x: number) => number;
 
-    label: ILabel;
-
-    markers(): Iterable<IMarker>;
-
-    addMarker(x: number): IMarker;
-    removeMarker(marker: IMarker): boolean;
-
-    locators(): Iterable<ILocator>;
-
-    addLocator(x: number): ILocator;
-    removeLocator(locator: ILocator);
 }

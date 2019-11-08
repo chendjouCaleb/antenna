@@ -1,5 +1,5 @@
 import {ICircleShape} from "../../core/element/circle";
-import {GraphSvg} from "../graph";
+import {GraphSvg} from "./graph";
 import {CircleSvg} from "../circle";
 import {Point} from "../../core";
 

@@ -5,3 +5,4 @@ export interface IBordered {
     borderOpacity: number;
     visibleBorder: boolean;
 }
+

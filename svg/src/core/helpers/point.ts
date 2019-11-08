@@ -56,6 +56,16 @@ export class PointHelpers {
         return new Point(a.x +x, a.y  + y);
     }
 
+    public static getExpressionPoints(fn: (x: number) => number, domain: [number, number], step: number): Point[]{
+        let points:Point[] = [];
+
+        for(let i = domain[0]; i <= domain[1]; i+=step){
+            points.push(new Point(i, fn(i)));
+        }
+
+        return points;
+    }
+
     public static equals(a: Point, b: Point): boolean{
         if(a == null || b == null){
             return false;

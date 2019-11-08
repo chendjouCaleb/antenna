@@ -6,7 +6,7 @@ import {SVGAttributeHelpers} from "../helpers/SVGAttributeHelpers";
 import {Rectangle} from "./rectangle";
 import {Assert} from "../core/helpers/assert";
 import {IRectangle} from "../core/element/rectangle";
-import {GraphSvg} from "./graph";
+import {GraphSvg} from "./graph/graph";
 
 let uniqueId = 0;
 export class FigureSvg extends AbstractSvg<SVGElement> implements IFigure {

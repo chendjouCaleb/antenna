@@ -1,4 +1,4 @@
-import {GraphSvg} from "../graph";
+import {GraphSvg} from "./graph";
 import {IAxis, Point} from "../../core";
 import {AxisSvg} from "../axis";
 

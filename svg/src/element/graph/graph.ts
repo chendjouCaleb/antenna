@@ -1,11 +1,15 @@
-import {IGraph, Point} from "../core";
-import {AbstractSvg} from "./abstract-svg";
-import {Rectangle} from "./rectangle";
-import {IScale, LinearScale} from "../core/helpers/scale";
-import {createSvgElement} from "../helpers/SVGHelpers";
-import {IElement} from "../core/element/element";
-import {Assert} from "../core/helpers/assert";
-import {SVGAttributeHelpers} from "../helpers/SVGAttributeHelpers";
+import {IGraph, Point} from "../../core";
+import {AbstractSvg} from "../abstract-svg";
+import {Rectangle} from "../rectangle";
+import {IScale, LinearScale} from "../../core/helpers/scale";
+import {createSvgElement} from "../../helpers/SVGHelpers";
+import {IElement} from "../../core/element/element";
+import {Assert} from "../../core/helpers/assert";
+import {SVGAttributeHelpers} from "../../helpers/SVGAttributeHelpers";
+import {AxisSvg} from "../axis";
+import {GraphAxis} from "./graph-axis";
+import {GraphGrid} from "./graph-grid";
+import {GraphPath} from "./graph-path";
 
 let uniqueId = 0;
 export class GraphSvg extends AbstractSvg<SVGElement> implements IGraph {
@@ -33,6 +37,8 @@ export class GraphSvg extends AbstractSvg<SVGElement> implements IGraph {
 
         this._rect.x = 0;
         this._rect.y = 0;
+
+        this.fillColor = "transparent"
     }
 
     transformPoint(point: Point): Point {
@@ -42,12 +48,63 @@ export class GraphSvg extends AbstractSvg<SVGElement> implements IGraph {
         return new Point(x, y);
     }
 
+    transformPoints(points: Point[]): Point[] {
+        let transforms = [];
+        points.forEach(p => transforms.push(this.transformPoint(p)));
+
+        return transforms;
+    }
+
     get origin(): Point {
 
         const x = this.xScale().scale(0);
         const y = this.height - this.yScale().scale(0);
 
         return new Point(x, y);
+    }
+
+    addXAxis(): GraphAxis{
+        let axis = new GraphAxis(this);
+        axis.start = new Point(this.xDomain[0], 0);
+        axis.end = new Point(this.xDomain[1], 0);
+
+        return axis;
+    }
+
+    addYAxis(): GraphAxis {
+        let axis = new GraphAxis(this);
+        axis.start = new Point(0, this.yDomain[0]);
+        axis.end = new Point(0, this.yDomain[1]);
+
+        return axis;
+    }
+
+    useGrid(gap: number = 5): GraphGrid {
+        let grid = new GraphGrid(this);
+
+        grid.vDomain = this.xDomain;
+        grid.hDomain = this.yDomain;
+
+        grid.hspace = gap;
+        grid.vspace = gap;
+        grid.strokeColor = "#919191";
+
+        return grid;
+    }
+
+    addPath(values: [number, number][]): GraphPath{
+        let points = [];
+        values.forEach(v =>points.push(new Point(v[0], v[1])));
+        let path = new GraphPath(this);
+        path.points = [points];
+        return path;
+    }
+
+    addPathFn(fn: (x: number) => number, domains: [number, number][] = [this.xDomain], step: number = .1): GraphPath {
+        let path = new GraphPath(this);
+        path.useExpression(fn, domains, step);
+
+        return path;
     }
 
     objectType(): string {

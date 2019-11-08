@@ -1,13 +1,11 @@
 import {createSvgElement} from "../../helpers/SVGHelpers";
-import {GraphSvg} from "../graph";
+import {GraphSvg} from "../graph/graph";
 import {Rectangle} from "../rectangle";
 import {LinearScale} from "../../core/helpers/scale";
 import {Point} from "../../core";
 
 describe("graph", () => {
     test("create", () => {
-        let canvas = createSvgElement("svg");
-
         let graph = new GraphSvg();
 
         expect(graph.objectType()).toBe("graph");
