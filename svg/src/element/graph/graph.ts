@@ -82,12 +82,17 @@ export class GraphSvg extends AbstractSvg<SVGElement> implements IGraph {
     useGrid(gap: number = 5): GraphGrid {
         let grid = new GraphGrid(this);
 
-        grid.vDomain = this.xDomain;
-        grid.hDomain = this.yDomain;
+        grid.xDomain = this.xDomain;
+        grid.yDomain = this.yDomain;
 
-        grid.hspace = gap;
-        grid.vspace = gap;
-        grid.strokeColor = "#919191";
+        grid.space = gap;
+
+
+        grid.xLines()[0].strokeColor = "transparent";
+        grid.yLines()[0].strokeColor = "transparent";
+
+        grid.xLines()[grid.xLines().length - 1].strokeColor = "transparent";
+        grid.yLines()[grid.yLines().length - 1].strokeColor = "transparent";
 
         return grid;
     }

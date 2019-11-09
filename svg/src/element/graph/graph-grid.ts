@@ -1,51 +1,47 @@
 import {IGrid, ILine} from "../../core";
 import {GraphSvg} from "./graph";
 import {GridSvg} from "../grid";
+import {LineSvg} from "../line";
 
 export class GraphGrid implements IGrid{
-    private _hDomain: [number, number];
-    private _hspace: number;
-    private _vDomain: [number, number];
+    private _xDomain: [number, number];
+    private _yDomain: [number, number];
     private _grid = new GridSvg();
 
     constructor(private _graph: GraphSvg){
         _graph.addChild(this._grid);
     }
 
-    hLines(): Iterable<ILine> {
-        return this._grid.hLines();
+    xLines(): LineSvg[] {
+        return this._grid.xLines();
     }
 
-    vLines(): Iterable<ILine> {
-        return this._grid.vLines();
+    yLines(): LineSvg[] {
+        return this._grid.yLines();
     }
 
 
-    set hDomain(value: [number, number]) {
-        this._hDomain = value;
+    set xDomain(value: [number, number]) {
+        this._xDomain = value;
 
-        this._grid.hDomain = [
-            this._graph.yScale().scale(value[0]), this._graph.yScale().scale(value[1])
-        ];
-
-    }
-
-    set vDomain(value: [number, number]) {
-        this._vDomain = value;
-
-        this._grid.vDomain = [
+        this._grid.xDomain = [
             this._graph.xScale().scale(value[0]), this._graph.xScale().scale(value[1])
         ];
+
     }
 
-    set hspace(value: number) {
-        this._grid.hspace = value;
+    set yDomain(value: [number, number]) {
+        this._yDomain = value;
+
+        this._grid.yDomain = [
+            this._graph.yScale().scale(value[0]), this._graph.yScale().scale(value[1])
+        ];
     }
 
-
-    set vspace(value: number) {
-        this._grid.vspace = value;
+    set space(value: number) {
+        this._grid.space = value;
     }
+
 
     set strokeColor(value: string) {
         this._grid.strokeColor = value;
@@ -64,12 +60,8 @@ export class GraphGrid implements IGrid{
         return this._grid.dasharray;
     }
 
-    get hDomain(): [number, number] {
-        return this._hDomain;
-    }
-
-    get hspace(): number {
-        return this._hspace;
+    get xDomain(): [number, number] {
+        return this._xDomain;
     }
 
     get strokeColor(): string {
@@ -80,12 +72,12 @@ export class GraphGrid implements IGrid{
         return this._grid.strokeWidth;
     }
 
-    get vDomain(): [number, number] {
-        return this._vDomain;
+    get yDomain(): [number, number] {
+        return this._yDomain;
     }
 
-    get vspace(): number {
-        return this._grid.vspace;
+    get space(): number {
+        return this._grid.space;
     }
 
     get grid(): GridSvg {

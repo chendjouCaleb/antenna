@@ -98,7 +98,6 @@ export class SVGAttributeHelpers {
 
     public static x(element: SVGElement, value: number) {
         Assert.isNotNull(element);
-        Assert.isPositive(value);
 
         element.setAttribute("x", value.toString());
     }
@@ -106,7 +105,6 @@ export class SVGAttributeHelpers {
 
     public static y(element: SVGElement, value: number) {
         Assert.isNotNull(element);
-        Assert.isPositive(value);
 
         element.setAttribute("y", value.toString());
     }

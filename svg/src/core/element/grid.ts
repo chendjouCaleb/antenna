@@ -1,15 +1,14 @@
 import {ILine} from "./ILine";
 
 export interface IGrid {
-    vspace: number;
-    hspace: number;
+    space: number;
     strokeWidth: number;
     strokeColor: string;
     dasharray: string;
 
-    hDomain: [ number, number];
-    vDomain: [ number, number];
+    xDomain: [ number, number];
+    yDomain: [ number, number];
 
-    hLines(): Iterable<ILine>
-    vLines(): Iterable<ILine>
+    xLines(): Iterable<ILine>
+    yLines(): Iterable<ILine>
 }

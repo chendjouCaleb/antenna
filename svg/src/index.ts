@@ -32,35 +32,35 @@ document.onreadystatechange = () => {
     //
     // figure.addChild(axis);
 
-    let graph = figure.addGraph(0, 0);
+    let graph = figure.addGraph(5, 5);
     graph.xDomain = [-5, 5];
     graph.yDomain = [-5, 5];
 
     graph.addXAxis();
     graph.addYAxis();
-    graph.useGrid(50);
-    graph.addPath([[0, 0], [4, 4], [4, 0]]);
+    graph.useGrid(20);
 
     graph.addPathFn(x => x * x );
-    graph.addPathFn(x => Math.exp(x));
-    graph.addPathFn(x => Math.sqrt(x), [[0, 5]]);
-    graph.addPathFn(x => Math.log(x), [[0.01, 5]]);
 
 
     let gcircle = new GraphCircle(graph);
-    gcircle.radius = 0.3;
+    gcircle.radius = 0.2;
 
     let gcircle1 = new GraphCircle(graph);
-    gcircle1.xy = new Point(-1, 3);
-    gcircle1.radius = 0.3
+    gcircle1.xy = new Point(1, 1);
+    gcircle1.radius = 0.2;
 
-    let graph1 = figure.addGraph(0, 210);
+    let graph1 = figure.addGraph(10, 210);
 
 
     graph1.yDomain = [-0.5, 1.5];
-    graph1.xDomain = [-Math.PI*3/2 -0.5, 5*Math.PI/2 + 0.5];
-    graph1.width = 400;
-    graph1.useGrid(37);
+    graph1.xDomain = [-7, 7];
+    graph1.width = 350;
+    graph1.height = 200;
+    let graphGrid = graph1.useGrid(25);
+
+    let minorGrid = graph1.useGrid(5);
+    minorGrid.dasharray = "1,1";
     graph1.addXAxis();
     graph1.addYAxis();
 
@@ -81,22 +81,16 @@ document.onreadystatechange = () => {
 
     let grid = new GridSvg();
 
-    grid.hDomain = [215, 380];
-    grid.vDomain = [0, 200];
+    grid.yDomain = [0, 200];
+    grid.xDomain = [215, 380];
 
 
-    grid.strokeWidth = 0.5;
-    grid.strokeColor = "#919191";
-    grid.dasharray = "10, 2";
+
+    grid.strokeWidth = 1;
+    grid.dasharray = "2, 2";
 
 
     figure.addChild(grid);
-
-    let path = new PathSvg();
-
-    path.useExpression(x => Math.log(x), [[1, 100], [150, 200]], 1);
-
-    figure.addChild(path);
 };
 
 

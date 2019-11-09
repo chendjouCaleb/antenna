@@ -1,146 +1,179 @@
 import {AbstractSvg} from "./abstract-svg";
-import {IElement} from "../core/element/element";
-import {IGrid, ILine, Point} from "../core";
+import {IGrid, Point} from "../core";
 import {createSvgElement} from "../helpers/SVGHelpers";
 import {LineSvg} from "./line";
 import {SVGAttributeHelpers} from "../helpers/SVGAttributeHelpers";
+import {Assert} from "../core/helpers/assert";
 
 let uniqueId = 0;
 export class GridSvg extends AbstractSvg<SVGElement> implements IGrid{
 
-    private _vspace: number = 10;
-    private _hspace: number = 10;
+    private _space: number = 10;
     private _strokeWidth: number;
     private _dasharray: string;
     private _strokeColor: string;
-    private _hDomain: [number, number] = [0, 11];
-    private _vDomain: [number, number]= [0, 11];
-    private readonly _vGridHost: SVGElement;
-    private readonly _hGridHost: SVGElement;
-    private _vLine: LineSvg[] = [];
-    private _hLine: LineSvg[] = [];
+    private _xDomain: [number, number] = [0, 11];
+    private _yDomain: [number, number]= [0, 11];
+    private readonly _yGridHost: SVGElement;
+    private readonly _xGridHost: SVGElement;
+    private _yLines: LineSvg[] = [];
+    private _xLines: LineSvg[] = [];
 
     constructor() {
         super(createSvgElement("svg"));
         this._id = ++uniqueId;
 
-        this._vGridHost = createSvgElement("svg");
-        this._hGridHost = createSvgElement("svg");
+        this._yGridHost = createSvgElement("svg");
+        this._xGridHost = createSvgElement("svg");
 
-        this.host.appendChild(this._vGridHost);
-        this.host.appendChild(this._hGridHost);
+        this.host.appendChild(this._yGridHost);
+        this.host.appendChild(this._xGridHost);
 
-        SVGAttributeHelpers.setAttribute(this._vGridHost, "height", "100%");
-        SVGAttributeHelpers.setAttribute(this._vGridHost, "width", "100%");
+        SVGAttributeHelpers.setAttribute(this._yGridHost, "height", "100%");
+        SVGAttributeHelpers.setAttribute(this._yGridHost, "width", "100%");
 
-        SVGAttributeHelpers.setAttribute(this._hGridHost, "height", "100%");
-        SVGAttributeHelpers.setAttribute(this._hGridHost, "width", "100%");
+        SVGAttributeHelpers.setAttribute(this._xGridHost, "height", "100%");
+        SVGAttributeHelpers.setAttribute(this._xGridHost, "width", "100%");
+
+        this.strokeColor = "#919191";
     }
 
     objectType(): string {
         return "grid";
     }
 
-    hLines(): LineSvg[] {
-        return this._hLine.slice();
+    xLines(): LineSvg[] {
+        return this._xLines.slice();
     }
 
-    vLines(): LineSvg[] {
-        return this._vLine.slice();
+    yLines(): LineSvg[] {
+        return this._yLines.slice();
     }
 
-    public setHLine(domain: [number, number], space: number = 10){
-        let width = Math.abs(domain[1] - domain[0]);
-        SVGAttributeHelpers.width(this.host, width);
-        SVGAttributeHelpers.x(this.host, domain[0]);
-        this._hLine = [];
-        this.hGridHost.innerHTML = "";
+    public createXLine(yDomain: [number, number], width: number, space: number): LineSvg[] {
+        let lines: LineSvg[] = [];
 
-        for(let i = this.vDomain[0]; i <= this.vDomain[1]; i += space) {
+        const height = yDomain[1] - yDomain[0];
+        for(let i = 0; i <= height; i+=space){
             let line = new LineSvg();
             line.start = new Point(0, i);
             line.end = new Point(width, i);
-
-            this.hGridHost.appendChild(line.host);
-            this._hLine.push(line);
+            lines.push(line);
         }
+
+        return lines;
     }
 
-    public setVLine(domain: [number, number], space: number = 10){
+    public createYLine(xDomain: [number, number], height: number, space: number): LineSvg[] {
+        let lines: LineSvg[] = [];
 
-        let height = Math.abs(domain[1] - domain[0]);
-        SVGAttributeHelpers.height(this.host, height);
-        SVGAttributeHelpers.y(this.host, domain[0]);
-        this._vLine = [];
-        this.vGridHost.innerHTML = "";
-        for(let i = this.hDomain[0]; i <= this.hDomain[1]; i += space) {
+        const width = xDomain[1] - xDomain[0];
+        for(let i = 0; i <= width; i+=space){
             let line = new LineSvg();
             line.start = new Point(i, 0);
             line.end = new Point(i, height);
-
-            this.vGridHost.appendChild(line.host);
-            this._vLine.push(line);
+            lines.push(line);
         }
+
+        return lines;
+    }
+
+    public updateGrid(xDomain: [number, number], yDomain: [number, number], space: number) {
+        this.yGridHost.innerHTML = "";
+        this.xGridHost.innerHTML = "";
+
+        this._xDomain = xDomain;
+        this._yDomain = yDomain;
+        this._space = space;
+
+        this.x = xDomain[0];
+        this.y = yDomain[0];
+
+        const height = yDomain[1] - yDomain[0];
+        const width = xDomain[1] - xDomain[0];
+
+        SVGAttributeHelpers.width(this.host, width);
+        SVGAttributeHelpers.height(this.host, height);
+
+        this._yLines = this.createYLine(xDomain, height, space);
+        this._xLines = this.createXLine(yDomain, width, space);
+
+        this._yLines.forEach(line => this.yGridHost.appendChild(line.host));
+        this._xLines.forEach(line => this.xGridHost.appendChild(line.host));
+
+        this.updateLineStyle();
+
+    }
+
+    private updateLineStyle() {
+        this._yLines.concat(this._xLines).forEach(line => {
+            if(this.dasharray){
+                line.dash = this.dasharray;
+            }
+
+            if(this.strokeWidth){
+                line.strokeWidth = this.strokeWidth;
+            }
+
+            if(this.strokeColor) {
+                line.strokeColor = this.strokeColor;
+            }
+        });
+    }
+
+    set space(value: number) {
+        this.updateGrid(this.xDomain, this.yDomain, value);
     }
 
 
-    set hspace(value: number) {
-        this._hspace = value;
-        this.setHLine(this.hDomain, value);
+    set xDomain(value: [number, number]) {
+        this.updateGrid(value, this.yDomain, this.space);
     }
 
-
-    set vspace(value: number) {
-        this._vspace = value;
-        this.setVLine(this.vDomain, value);
+    set yDomain(value: [number, number]) {
+        this.updateGrid(this.xDomain, value, this.space);
     }
 
-    set hDomain(value: [number, number]) {
-        this._hDomain = value;
-        this.setHLine(value, this.hspace);
-
-    }
-
-    set vDomain(value: [number, number]) {
-        this._vDomain = value;
-        this.setVLine(value, this.vspace);
-
-    }
 
 
     set dasharray(value: string) {
         this._dasharray = value;
-        this.hLines().forEach(line => line.dash = value);
-        this.vLines().forEach(line => line.dash = value);
+        this.xLines().forEach(line => line.dash = value);
+        this.yLines().forEach(line => line.dash = value);
     }
 
     set strokeColor(value: string) {
         this._strokeColor = value;
-        this.hLines().forEach(line => line.strokeColor = value);
-        this.vLines().forEach(line => line.strokeColor = value);
+        this.xLines().forEach(line => line.strokeColor = value);
+        this.yLines().forEach(line => line.strokeColor = value);
     }
 
     set strokeWidth(value: number) {
         this._strokeWidth = value;
-        this.hLines().forEach(line => line.strokeWidth = value);
-        this.vLines().forEach(line => line.strokeWidth = value);
+        this.xLines().forEach(line => line.strokeWidth = value);
+        this.yLines().forEach(line => line.strokeWidth = value);
     }
 
-    get hGridHost(): SVGElement {
-        return this._hGridHost;
-    }
-
-    get vGridHost(): SVGElement {
-        return this._vGridHost;
+    get width(): number {
+        return this.xDomain[1] - this.xDomain[0];
     }
 
 
-    get vspace(): number {
-        return this._vspace;
+    get height(): number {
+        return this.yDomain[1] - this.yDomain[0];
     }
 
-    get hspace(): number {
-        return this._hspace;
+    get xGridHost(): SVGElement {
+        return this._xGridHost;
+    }
+
+    get yGridHost(): SVGElement {
+        return this._yGridHost;
+    }
+
+
+    get space(): number {
+        return this._space;
     }
 
     get dasharray(): string {
@@ -155,11 +188,12 @@ export class GridSvg extends AbstractSvg<SVGElement> implements IGrid{
         return this._strokeWidth;
     }
 
-    get hDomain(): [number, number] {
-        return this._hDomain;
+    get xDomain(): [number, number] {
+        return this._xDomain;
     }
 
-    get vDomain(): [number, number] {
-        return this._vDomain;
+    get yDomain(): [number, number] {
+        return this._yDomain;
     }
+
 }

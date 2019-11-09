@@ -10,26 +10,26 @@ describe("svg grid", () => {
         expect(grid.host.tagName).toBe("svg");
 
 
-        expect(grid.hGridHost.tagName).toBe("svg");
-        expect(grid.hGridHost.getAttribute("height")).toBe("100%");
-        expect(grid.hGridHost.getAttribute("width")).toBe("100%");
+        expect(grid.xGridHost.tagName).toBe("svg");
+        expect(grid.xGridHost.getAttribute("height")).toBe("100%");
+        expect(grid.xGridHost.getAttribute("width")).toBe("100%");
 
-        expect(grid.vGridHost.tagName).toBe("svg");
-        expect(grid.vGridHost.getAttribute("height")).toBe("100%");
-        expect(grid.vGridHost.getAttribute("width")).toBe("100%");
+        expect(grid.yGridHost.tagName).toBe("svg");
+        expect(grid.yGridHost.getAttribute("height")).toBe("100%");
+        expect(grid.yGridHost.getAttribute("width")).toBe("100%");
 
-        expect(grid.vGridHost.parentElement).toBe(grid.host);
-        expect(grid.hGridHost.parentElement).toBe(grid.host);
+        expect(grid.yGridHost.parentElement).toBe(grid.host);
+        expect(grid.xGridHost.parentElement).toBe(grid.host);
     });
 
     test("set domain", () => {
         let grid = new GridSvg();
 
-        grid.hDomain = [10, 100];
-        grid.vDomain = [20, 80];
+        grid.xDomain = [10, 100];
+        grid.yDomain = [20, 80];
 
-        expect(grid.hDomain).toStrictEqual([10, 100]);
-        expect(grid.vDomain).toStrictEqual([20, 80]);
+        expect(grid.xDomain).toStrictEqual([10, 100]);
+        expect(grid.yDomain).toStrictEqual([20, 80]);
 
         expect(grid.host.getAttribute("x")).toBe("10");
         expect(grid.host.getAttribute("y")).toBe("20");
@@ -38,62 +38,131 @@ describe("svg grid", () => {
         expect(grid.host.getAttribute("height")).toBe("60");
     });
 
-    test("set hLine", () => {
+    test("create XLine", () => {
         let grid = new GridSvg();
 
-        grid.setHLine([10, 110], 10);
+        let space = 2;
+        let domain: [number, number] = [-2, 8];
+        const width = domain[1] - domain[0];
+        let lines = grid.createXLine(domain, width, space);
 
-        expect(grid.hLines().length).toBe(11);
-        for (let i = 0; i < grid.hLines().length; i++) {
-            let line = grid.hLines()[i];
-            expect(line.start.x).toBe(0);
-            expect(line.end.x).toBe(100);
+        expect(lines.length).toBe(6);
 
-            expect(line.start.y).toBe(i * 10);
-            expect(line.end.y).toBe(i * 10);
+        for(let j = 0, i = 0; j < width; j+=space, i++){
+            let line = lines[i];
+            expect(line.host.getAttribute("x1")).toBe(`${0}`);
+            expect(line.host.getAttribute("y1")).toBe(`${j}`);
 
-            expect(line.host.parentElement).toBe(grid.hGridHost);
+            expect(line.host.getAttribute("x2")).toBe(`${width}`);
+            expect(line.host.getAttribute("y2")).toBe(`${j}`);
         }
-
-        expect(grid.hGridHost.children.length).toBe(11);
-        expect(grid.host.getAttribute("width")).toBe("100");
-        expect(grid.host.getAttribute("x")).toBe("10");
-
-
     });
 
 
-    test("set vLine", () => {
+    test("create YLine", () => {
         let grid = new GridSvg();
 
-        grid.setVLine([10, 110], 10);
+        let domain: [number, number] = [-2, 8];
+        let height = domain[1] - domain[0];
+        let space = 2;
+        let lines = grid.createYLine(domain, height, space);
 
-        expect(grid.vLines().length).toBe(11);
-        for (let i = 0; i < grid.vLines().length; i++) {
-            let line = grid.vLines()[i];
-            expect(line.start.y).toBe(0);
-            expect(line.end.y).toBe(100);
+        expect(lines.length).toBe(6);
 
-            expect(line.start.x).toBe(i * 10);
-            expect(line.end.x).toBe(i * 10);
-            expect(line.host.parentElement).toBe(grid.vGridHost);
+        for(let j = 0, i = 0; j < height; j += space, i++){
+            let line = lines[i];
+            expect(line.host.getAttribute("x1")).toBe(`${j}`);
+            expect(line.host.getAttribute("y1")).toBe(`${0}`);
+
+            expect(line.host.getAttribute("x2")).toBe(`${j}`);
+            expect(line.host.getAttribute("y2")).toBe(`${height}`);
+        }
+    });
+
+    test("update grid", () => {
+        let grid = new GridSvg();
+        grid.strokeColor = "#EEE";
+        grid.strokeWidth = 2;
+        grid.dasharray = "1, 2";
+
+        let yDomain: [number, number] = [0, 4];
+        let xDomain: [number, number] = [-2, 11];
+        let space = 3;
+
+        let width = xDomain[1] - xDomain[0];
+        let height = yDomain[1] - yDomain[0];
+
+        grid.updateGrid(xDomain, yDomain, space);
+
+        expect(grid.xDomain).toStrictEqual(xDomain);
+        expect(grid.yDomain).toStrictEqual(yDomain);
+        expect(grid.space).toStrictEqual(space);
+        expect(grid.x).toBe(xDomain[0]);
+        expect(grid.y).toBe(yDomain[0]);
+
+        expect(grid.width).toBe(width);
+        expect(grid.host.getAttribute("width")).toBe(`${width}`);
+        expect(grid.host.getAttribute("x")).toBe(`${xDomain[0]}`);
+
+        expect(grid.height).toBe(height);
+        expect(grid.host.getAttribute("height")).toBe(`${height}`);
+        expect(grid.host.getAttribute("y")).toBe(`${yDomain[0]}`);
+
+        expect(grid.yLines().length).toBe(5);
+        expect(grid.xLines().length).toBe(2);
+
+        for(let j = 0, i = 0; j < height; j+= space, i++){
+            let line = grid.xLines()[i];
+            expect(line.host.getAttribute("x1")).toBe(`${0}`);
+            expect(line.host.getAttribute("y1")).toBe(`${j}`);
+
+            expect(line.host.getAttribute("x2")).toBe(`${width}`);
+            expect(line.host.getAttribute("y2")).toBe(`${j}`);
+
+            expect(line.host.parentElement).toBe(grid.xGridHost);
         }
 
-        expect(grid.vGridHost.children.length).toBe(11);
-        expect(grid.host.getAttribute("height")).toBe("100");
-        expect(grid.host.getAttribute("y")).toBe("10");
+        for(let j = 0, i = 0; j < width; j += space, i++){
+            let line = grid.yLines()[i];
+            expect(line.host.getAttribute("x1")).toBe(`${j}`);
+            expect(line.host.getAttribute("y1")).toBe(`${0}`);
+
+            expect(line.host.getAttribute("x2")).toBe(`${j}`);
+            expect(line.host.getAttribute("y2")).toBe(`${height}`);
+
+            expect(line.host.parentElement).toBe(grid.yGridHost);
+        }
+
+        let lines = grid.xLines().concat(grid.yLines());
+
+        lines.forEach(line => {
+            expect(line.dash).toBe(grid.dasharray);
+            expect(line.strokeColor).toBe(grid.strokeColor);
+            expect(line.strokeWidth).toBe(grid.strokeWidth);
+        });
     });
+
+    test("set space", () => {
+       let grid = new GridSvg();
+       grid.space = 2;
+       expect(grid.space).toBe(2);
+
+    });
+
     
     test("set stroke width", () => {
         let grid = new GridSvg();
-        grid.setVLine([10, 110], 10);
+        grid.xDomain = [0, 10];
+        grid.yDomain = [0, 10];
         
         grid.strokeWidth = 10;
         grid.strokeColor = "#EEE";
         grid.dasharray = "1, 2";
-        
-        grid.vLines().forEach(line => {
-            
-        })
+
+        grid.xLines().concat(grid.yLines()).forEach(line => {
+            line.dash = grid.dasharray;
+            line.strokeColor = grid.strokeColor;
+            line.strokeWidth = grid.strokeWidth;
+        });
     })
 });
