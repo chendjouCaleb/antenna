@@ -36,6 +36,7 @@ export class GridSvg extends AbstractSvg<SVGElement> implements IGrid{
         SVGAttributeHelpers.setAttribute(this._xGridHost, "width", "100%");
 
         this.strokeColor = "#919191";
+        this.strokeWidth = 1;
     }
 
     objectType(): string {

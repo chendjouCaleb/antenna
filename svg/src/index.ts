@@ -12,6 +12,7 @@ import {GridSvg} from "./element/grid";
 import {PathSvg} from "./element/path";
 import {GraphGrid} from "./element/graph/graph-grid";
 import {GraphPath} from "./element/graph/graph-path";
+import {GraphLine} from "./element/graph/graph-line";
 
 document.onreadystatechange = () => {
     let svg = document.querySelector<SVGElement>("#canvas-zone");
@@ -25,46 +26,42 @@ document.onreadystatechange = () => {
     figure.fillColor = "#3399FF";
     figure.fillOpacity = 0.05;
 
-    // let axis = new AxisSvg();
-    //
-    // axis.start = new Point(0, 100);
-    // axis.end = new Point(400, 100);
-    //
-    // figure.addChild(axis);
 
-    let graph = figure.addGraph(5, 5);
-    graph.xDomain = [-5, 5];
-    graph.yDomain = [-5, 5];
+    let graph = figure.addGraph(10, 210);
 
+
+    graph.yDomain = [-0.5, 1.5];
+    graph.xDomain = [-Math.PI*3/2-0.5, Math.PI*5/2 + 0.5];
+    graph.width = 450;
+    graph.height = 300;
+    let majorGrid = graph.useGrid(25);
+
+    let minorGrid = graph.useGrid(5);
+    minorGrid.dasharray = "1,1";
     graph.addXAxis();
     graph.addYAxis();
-    graph.useGrid(20);
 
-    graph.addPathFn(x => x * x );
+    let path = graph.addPathFn(x => 1/(2-Math.sin(x)));
 
+    path.strokeColor = "#E80C7A";
 
-    let gcircle = new GraphCircle(graph);
-    gcircle.radius = 0.2;
+    graph.addVLine([0, 1], -Math.PI/2 * 3).setDash("3,3");
+    graph.addVLine([0, 1/3], -Math.PI/2).setDash("3,3");
+    graph.addVLine([0, 1.36], Math.PI/2).setDash("3,3");
+    graph.addVLine([0, 0.5], Math.PI).setDash("3,3");
+    graph.addVLine([0, 1.36], Math.PI/2 * 3).setDash("3,3");
+    graph.addVLine([0, 0.5], 2*Math.PI).setDash("3,3");
+    graph.addVLine([0, 1], Math.PI/2 * 5).setDash("3,3");
 
-    let gcircle1 = new GraphCircle(graph);
-    gcircle1.xy = new Point(1, 1);
-    gcircle1.radius = 0.2;
+    graph.addHLine([0, 2 * Math.PI], 0.5).setDash("3,3");
+    graph.addHLine(graph.xDomain, 1).setDash("3,3");
 
-    let graph1 = figure.addGraph(10, 210);
+    graph.addHLineFrom(-Math.PI/2*3, 1, 1);
+    graph.addHLineFrom(-Math.PI/2, 1/3, 2);
+    graph.addHLineFrom(Math.PI/2, 1, 2);
+    graph.addHLineFrom(Math.PI/2*3, 1/3, 2);
+    graph.addHLineFrom(Math.PI/2*5, 1, 1);
 
-
-    graph1.yDomain = [-0.5, 1.5];
-    graph1.xDomain = [-7, 7];
-    graph1.width = 350;
-    graph1.height = 200;
-    let graphGrid = graph1.useGrid(25);
-
-    let minorGrid = graph1.useGrid(5);
-    minorGrid.dasharray = "1,1";
-    graph1.addXAxis();
-    graph1.addYAxis();
-
-    graph1.addPathFn(x => 1/(2-Math.sin(x)));
 
     // let line = new LineSvg();
     // line.start = new Point(10, 10);
