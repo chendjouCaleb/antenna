@@ -51,6 +51,11 @@ export class GraphGrid implements IGrid{
         this._grid.strokeWidth = value;
     }
 
+    setDash(value: string): GraphGrid {
+        this._grid.dasharray = value;
+        return this;
+    }
+
     set dasharray(value: string) {
         this._grid.dasharray = value;
     }

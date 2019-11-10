@@ -11,6 +11,7 @@ import {GraphAxis} from "./graph-axis";
 import {GraphGrid} from "./graph-grid";
 import {GraphPath} from "./graph-path";
 import {GraphLine} from "./graph-line";
+import {GraphLabel} from "./graph-label";
 
 let uniqueId = 0;
 export class GraphSvg extends AbstractSvg<SVGElement> implements IGraph {
@@ -127,6 +128,10 @@ export class GraphSvg extends AbstractSvg<SVGElement> implements IGraph {
 
     addHLineFrom(x: number, y: number, width: number) {
         return this.addLine(new Point(x-(width/2), y), new Point(x+width/2, y));
+    }
+
+    addText(content: string, xy: [number, number] = [0, 0]): GraphLabel{
+        return new GraphLabel(this, content, xy);
     }
 
     objectType(): string {

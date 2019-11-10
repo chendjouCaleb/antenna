@@ -1,6 +1,7 @@
 export interface ILabel {
     content: string;
-    useTexPrinter: boolean;
+    fontSize: number;
+    fontColor: string;
 }
 
 export type LabelPosition = "top" | "bottom" | "left" | "right";
