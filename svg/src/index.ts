@@ -1,7 +1,5 @@
 import {FigureSvg} from "./element/figure";
 import {GridSvg} from "./element/grid";
-import {LabelSvg} from "./element/label";
-import {GraphLabel} from "./element/graph/graph-label";
 
 document.onreadystatechange = () => {
     let svg = document.querySelector<SVGElement>("#canvas-zone");
@@ -31,6 +29,7 @@ document.onreadystatechange = () => {
 
     let fn = (x: number) => (2*x*x + 4*x + 5) / (x*x + 1);
     let p = plan.addPathFn(fn);
+    plan.addPathFn(x => Math.log(x), [[0.1, 6]])
     p.strokeColor = "#E80C7A";
 
     plan.addHLineFrom(-2, fn(-2), 2);

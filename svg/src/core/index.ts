@@ -11,7 +11,8 @@ export { ILine } from "./element/ILine";
 export { ILabel, LabelPosition } from "./element/label";
 export { ILocator } from "./element/locator";
 export { IMarker } from "./element/marker";
-export { ITicks, TickPosition } from "./element/ticks";
+export { ITick, TickPosition, IXTick, IYTick } from "./element/tick";
 export { ICircle, ICircleShape } from "./element/circle";
 export { IPath } from "./element/IPath";
-export { IStroke } from "./element/stroke"
+export { IStroke } from "./element/stroke";
+export  {IBar, IVerticalBar, IHorizontalBar, IBars, IVerticalBars, IHorizontalBars, IStackBars} from "./element/bar";

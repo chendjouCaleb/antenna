@@ -1,4 +1,4 @@
-import {IAxis, ILine, ITicks, Point} from "../core";
+import {IAxis, ITick, Point} from "../core";
 import {AbstractSvg} from "./abstract-svg";
 import {createSvgElement} from "../helpers/SVGHelpers";
 import {LineSvg} from "./line";
@@ -34,11 +34,11 @@ export class AxisSvg extends AbstractSvg<SVGElement> implements IAxis {
         SVGAttributeHelpers.numberAttribute(this._line.host, "y1", value.y);
     }
 
-    addTick(position: number, text: any): ITicks {
+    addTick(position: number, text: any): ITick {
         return undefined;
     }
 
-    getTick(index: number): ITicks {
+    getTick(index: number): ITick {
         return undefined;
     }
 
@@ -46,11 +46,11 @@ export class AxisSvg extends AbstractSvg<SVGElement> implements IAxis {
         return this._line;
     }
 
-    removeTick(tick: ITicks): ITicks {
+    removeTick(tick: ITick): ITick {
         return undefined;
     }
 
-    ticks(): Iterable<ITicks> {
+    ticks(): Iterable<ITick> {
         return undefined;
     }
 

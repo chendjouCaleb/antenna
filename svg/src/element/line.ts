@@ -15,7 +15,7 @@ export class LineSvg extends AbstractSvg<SVGLineElement> implements ILine{
         super(createSvgElement("line"));
         this._id = ++uniqueId;
 
-        this.strokeColor = "#3E3E3E";
+        this.strokeColor = "#777777";
         this.strokeWidth = 2;
         SVGAttributeHelpers.setAttribute(this.host, "shape-rendering", "crispEdges");
     }

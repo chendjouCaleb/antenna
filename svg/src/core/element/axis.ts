@@ -1,6 +1,6 @@
 import {Point} from "../helpers/point";
 import {ILine} from "./ILine";
-import {ITicks} from "./ticks";
+import {ITick} from "./tick";
 import {IElement} from "./element";
 
 export interface IAxis extends IElement{
@@ -9,10 +9,7 @@ export interface IAxis extends IElement{
 
     line(): ILine;
 
-    ticks(): Iterable<ITicks>;
+    ticks(): Iterable<ITick>;
 
-    addTick(position: number, text: any): ITicks;
-    getTick(index: number): ITicks;
-    removeTick(tick: ITicks): ITicks;
 }
 

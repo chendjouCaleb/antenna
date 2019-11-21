@@ -4,7 +4,6 @@ import {createSvgElement} from "../helpers/SVGHelpers";
 
 export class LabelSvg extends AbstractSvg<SVGElement> implements ILabel{
     private _content: string;
-    useTexPrinter: boolean;
     private _fontColor: string;
     private _fontSize: number;
     constructor() {

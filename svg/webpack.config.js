@@ -1,7 +1,10 @@
 module.exports = {
     mode: "development",
-    entry: "./src/index.ts",
-    output: { filename: "bundle.js" },
+    entry: {
+        "index": "./src/index.ts",
+        "bar": "./src/bar-index.ts"
+    },
+    output: { filename: "[name].js" },
     resolve: { extensions: [".ts", ".js"] },
     module: {
         rules: [
