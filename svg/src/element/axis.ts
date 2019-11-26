@@ -18,7 +18,7 @@ export class AxisSvg extends AbstractSvg<SVGElement> implements IAxis {
 
         this.host.appendChild(this._line.host);
 
-        this._line.strokeWidth = 2;
+        this._line.strokeWidth = 1;
     }
 
 

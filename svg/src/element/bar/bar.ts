@@ -2,7 +2,7 @@ import {AbstractSvg} from "../abstract-svg";
 import {IBar} from "../../core";
 import {SVGAttributeHelpers} from "../../helpers/SVGAttributeHelpers";
 import {createSvgElement} from "../../helpers/SVGHelpers";
-import {randomColor} from "../../core/helpers/color";
+import {defaultBarColor, randomColor} from "../../core/helpers/color";
 
 let uniqueId = 0;
 export abstract class Bar extends AbstractSvg<SVGRectElement> implements IBar{
@@ -17,7 +17,7 @@ export abstract class Bar extends AbstractSvg<SVGRectElement> implements IBar{
 
     constructor() {
         super(createSvgElement("rect"));
-        this.fillColor = randomColor();
+        this.fillColor = defaultBarColor;
         this._id = ++uniqueId;
     }
 
